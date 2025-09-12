@@ -5,5 +5,14 @@
 }
 
 body {
-  background: black;
+  background: #000000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#canvas {
+  border: 1px solid #ffffff;
 }

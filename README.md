@@ -1,2 +1,0 @@
-# Tetris clone using JavaScript
-
