@@ -37,11 +37,11 @@ const figure = new Figure({
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") {
-    figure.position.x -= 1
+    figure.position.x--
   }
 
   if (event.key === "ArrowRight") {
-    figure.position.x += 1
+    figure.position.x++
   }
 
   // Make sure the figure doesn't escape from the canvas.
@@ -58,7 +58,7 @@ function main() {
 
   // Make the figure go down and stop at the limit.
   if (figure.position.y + figure.height <= BOARD_HEIGHT) {
-    figure.position.y += 0.1
+    figure.position.y += 0.07
   }
 
   window.requestAnimationFrame(main)
