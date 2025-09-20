@@ -1,5 +1,5 @@
 const canvas = document.getElementById("canvas") as HTMLCanvasElement
-const ctx = canvas.getContext("2d")
+const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
 
 const BLOCK_SIZE = 32
 const BOARD_WIDTH = 14
@@ -8,7 +8,7 @@ const BOARD_HEIGHT = 25
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
 canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 
-ctx?.scale(BLOCK_SIZE, BLOCK_SIZE)
+ctx.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 class Figure implements FigureOptions {
   position: { x: number; y: number }
@@ -22,8 +22,6 @@ class Figure implements FigureOptions {
   }
 
   draw() {
-    if (!ctx) return
-
     ctx.fillStyle = "#ffffff"
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
   }
@@ -52,7 +50,7 @@ document.addEventListener("keydown", (event) => {
 })
 
 function main() {
-  ctx?.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   figure.draw()
 
