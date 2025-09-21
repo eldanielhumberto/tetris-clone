@@ -25,6 +25,9 @@ document.addEventListener("keydown", (event) => {
             figure.position.x++
             if (figure.checkCollision()) figure.position.x--
             break;
+        case "ArrowUp":
+            figure.rotate()
+            break;
         case "ArrowDown":
             figure.position.y++
             if (figure.checkCollision()) {
