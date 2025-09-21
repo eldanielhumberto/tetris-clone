@@ -26,6 +26,27 @@ export const BOARD = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
+export const PIECES = [
+    [
+        [1, 1],
+        [1, 1]
+    ],
+    [
+        [1],
+        [1, 1]
+    ],
+    [
+        [1],
+        [1],
+        [1]
+    ],
+    [
+        [1],
+        [1],
+        [1, 1],
+    ]
+]
+
 export const BLOCK_SIZE = 24
 export const BOARD_WIDTH = 14
 export const BOARD_HEIGHT = 25

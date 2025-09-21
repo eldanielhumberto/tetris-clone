@@ -12,13 +12,7 @@ ctx.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 // Init objects
 const board = new Board(ctx);
-const figure = new Figure({
-    position: {x: 6, y: 0},
-    shape: [
-        [1, 1],
-        [1, 1],
-    ]
-}, ctx);
+const figure = new Figure({x: 6, y: 0}, ctx);
 
 // Controls
 document.addEventListener("keydown", (event) => {
@@ -35,7 +29,7 @@ document.addEventListener("keydown", (event) => {
             figure.position.y++
             if (figure.checkCollision()) {
                 figure.position.y--
-                
+
                 figure.solidify()
                 board.removeRow()
             }

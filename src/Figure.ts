@@ -1,20 +1,13 @@
-import {BOARD} from "./constants.ts";
+import {BOARD, PIECES} from "./constants.ts";
 
 export class Figure {
     position: { x: number; y: number }
     shape: number[][]
-    width: number
-    height: number
     ctx: CanvasRenderingContext2D
 
-    constructor({position, shape}: {
-        position: { x: number, y: number },
-        shape: number[][]
-    }, ctx: CanvasRenderingContext2D) {
-        this.position = position;
-        this.shape = shape;
-        this.width = shape[0].length;
-        this.height = shape.length;
+    constructor({x, y}: { x: number, y: number }, ctx: CanvasRenderingContext2D) {
+        this.position = {x, y};
+        this.shape = this.getRandomPiece()
         this.ctx = ctx;
     }
 
@@ -27,6 +20,10 @@ export class Figure {
                 }
             })
         })
+    }
+
+    getRandomPiece() {
+        return PIECES[Math.floor(Math.random() * PIECES.length)];
     }
 
     checkCollision() {
@@ -51,5 +48,6 @@ export class Figure {
 
     reset() {
         this.position = {x: 6, y: 0}
+        this.shape = this.getRandomPiece()
     }
 }
