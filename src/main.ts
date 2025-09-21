@@ -1,4 +1,4 @@
-import {B0ARD, BLOCK_SIZE, BOARD_HEIGHT, BOARD_WIDTH} from "./constants.ts";
+import {BOARD, BLOCK_SIZE, BOARD_HEIGHT, BOARD_WIDTH} from "./constants.ts";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement
 const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
@@ -31,12 +31,36 @@ class Figure {
             })
         })
     }
+
+    checkCollision() {
+        return figure.shape.find((row, y) => {
+            return row.find((cell, x) => {
+                return cell === 1 && BOARD[y + figure.position.y]?.[x + figure.position.x] !== 0
+            })
+        })
+    }
+
+    solidify() {
+        figure.shape.forEach((row, y) => {
+            row.forEach((cell, x) => {
+                if (cell === 1) {
+                    BOARD[y + figure.position.y][x + figure.position.x] = 1;
+                }
+            })
+        })
+
+        this.reset()
+    }
+
+    reset() {
+        figure.position = {x: 6, y: 0}
+    }
 }
 
 
 class Board {
     draw() {
-        B0ARD.forEach((row, y) => {
+        BOARD.forEach((row, y) => {
             row.forEach((cell, x) => {
                 if (cell === 1) {
                     ctx.fillStyle = "#ffffff"
@@ -56,25 +80,17 @@ const figure = new Figure({
     ]
 });
 
-function checkCollision() {
-    return figure.shape.find((row, y) => {
-        return row.find((cell, x) => {
-            return cell === 1 && B0ARD[y + figure.position.y][x + figure.position.x] !== 0
-        })
-    })
-}
-
 document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
         figure.position.x--
-        if (checkCollision()) {
+        if (figure.checkCollision()) {
             figure.position.x++
         }
     }
 
     if (event.key === "ArrowRight") {
         figure.position.x++
-        if (checkCollision()) {
+        if (figure.checkCollision()) {
             figure.position.x--
         }
     }
@@ -92,8 +108,9 @@ function update(time = 0) {
         figure.position.y++
         dropCounter = 0
 
-        if (checkCollision()) {
+        if (figure.checkCollision()) {
             figure.position.y--
+            figure.solidify()
         }
     }
 
