@@ -69,6 +69,21 @@ class Board {
             })
         })
     }
+
+    removeRow() {
+        const rowsToRemove: number[] = []
+
+        BOARD.forEach((row, y) => {
+            if (row.every(v => v === 1)) rowsToRemove.push(y)
+        })
+
+        rowsToRemove.forEach(y => {
+            BOARD.splice(y, 1)
+
+            const newRow = Array(BOARD_WIDTH).fill(0)
+            BOARD.unshift(newRow)
+        })
+    }
 }
 
 const board = new Board();
@@ -104,13 +119,14 @@ function update(time = 0) {
     lastTime = time
 
     dropCounter += deltaTime
-    if (dropCounter > 350) {
+    if (dropCounter > 200) {
         figure.position.y++
         dropCounter = 0
 
         if (figure.checkCollision()) {
             figure.position.y--
             figure.solidify()
+            board.removeRow()
         }
     }
 
