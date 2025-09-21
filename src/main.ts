@@ -88,7 +88,7 @@ function update(time = 0) {
     lastTime = time
 
     dropCounter += deltaTime
-    if (dropCounter > 400) {
+    if (dropCounter > 350) {
         figure.position.y++
         dropCounter = 0
 
