@@ -8,13 +8,13 @@ canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE)
 
-class Figure implements FigureOptions {
+class Figure {
     position: { x: number; y: number }
     shape: number[][]
     width: number
     height: number
 
-    constructor({position, shape}: FigureOptions) {
+    constructor({position, shape}: { position: { x: number, y: number }, shape: number[][] }) {
         this.position = position;
         this.shape = shape;
         this.width = shape[0].length;
