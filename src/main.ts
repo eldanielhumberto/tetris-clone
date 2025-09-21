@@ -22,14 +22,23 @@ const figure = new Figure({
 
 // Controls
 document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") {
-        figure.position.x--
-        if (figure.checkCollision()) figure.position.x++
-    }
-
-    if (event.key === "ArrowRight") {
-        figure.position.x++
-        if (figure.checkCollision()) figure.position.x--
+    switch (event.key) {
+        case "ArrowLeft":
+            figure.position.x--
+            if (figure.checkCollision()) figure.position.x++
+            break;
+        case "ArrowRight":
+            figure.position.x++
+            if (figure.checkCollision()) figure.position.x--
+            break;
+        case "ArrowDown":
+            figure.position.y++
+            if (figure.checkCollision()) {
+                figure.position.y--
+                
+                figure.solidify()
+                board.removeRow()
+            }
     }
 })
 
