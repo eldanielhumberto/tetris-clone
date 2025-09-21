@@ -1,4 +1,6 @@
-import {BOARD, BLOCK_SIZE, BOARD_HEIGHT, BOARD_WIDTH} from "./constants.ts";
+import {BLOCK_SIZE, BOARD_HEIGHT, BOARD_WIDTH} from "./constants.ts";
+import {Figure} from "./Figure.ts";
+import {Board} from "./Board.ts";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement
 const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
@@ -8,92 +10,14 @@ canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE)
 
-class Figure {
-    position: { x: number; y: number }
-    shape: number[][]
-    width: number
-    height: number
-
-    constructor({position, shape}: { position: { x: number, y: number }, shape: number[][] }) {
-        this.position = position;
-        this.shape = shape;
-        this.width = shape[0].length;
-        this.height = shape.length;
-    }
-
-    draw() {
-        this.shape.forEach((row, y) => {
-            row.forEach((cell, x) => {
-                if (cell === 1) {
-                    ctx.fillStyle = "#ffffff"
-                    ctx.fillRect(this.position.x + x, this.position.y + y, 1, 1)
-                }
-            })
-        })
-    }
-
-    checkCollision() {
-        return figure.shape.find((row, y) => {
-            return row.find((cell, x) => {
-                return cell === 1 && BOARD[y + figure.position.y]?.[x + figure.position.x] !== 0
-            })
-        })
-    }
-
-    solidify() {
-        figure.shape.forEach((row, y) => {
-            row.forEach((cell, x) => {
-                if (cell === 1) {
-                    BOARD[y + figure.position.y][x + figure.position.x] = 1;
-                }
-            })
-        })
-
-        this.reset()
-    }
-
-    reset() {
-        figure.position = {x: 6, y: 0}
-    }
-}
-
-
-class Board {
-    draw() {
-        BOARD.forEach((row, y) => {
-            row.forEach((cell, x) => {
-                if (cell === 1) {
-                    ctx.fillStyle = "#ffffff"
-                    ctx.fillRect(x, y, 1, 1)
-                }
-            })
-        })
-    }
-
-    removeRow() {
-        const rowsToRemove: number[] = []
-
-        BOARD.forEach((row, y) => {
-            if (row.every(v => v === 1)) rowsToRemove.push(y)
-        })
-
-        rowsToRemove.forEach(y => {
-            BOARD.splice(y, 1)
-
-            const newRow = Array(BOARD_WIDTH).fill(0)
-            BOARD.unshift(newRow)
-        })
-    }
-}
-
-const board = new Board();
+const board = new Board(ctx);
 const figure = new Figure({
     position: {x: 6, y: 0},
     shape: [
         [1, 1],
         [1, 1],
     ]
-});
+}, ctx);
 
 document.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
@@ -111,6 +35,13 @@ document.addEventListener("keydown", (event) => {
     }
 })
 
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    figure.draw()
+    board.draw()
+}
+
 let dropCounter = 0
 let lastTime = 0
 
@@ -125,15 +56,13 @@ function update(time = 0) {
 
         if (figure.checkCollision()) {
             figure.position.y--
+
             figure.solidify()
             board.removeRow()
         }
     }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-    figure.draw()
-    board.draw()
+    draw()
     window.requestAnimationFrame(update)
 }
 
