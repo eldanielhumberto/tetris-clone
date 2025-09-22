@@ -1,9 +1,9 @@
 import {BOARD, PIECES} from "./constants.ts";
 
 export class Figure {
+    private shape: number[][]
+    private ctx: CanvasRenderingContext2D
     position: { x: number; y: number }
-    shape: number[][]
-    ctx: CanvasRenderingContext2D
 
     constructor({x, y}: { x: number, y: number }, ctx: CanvasRenderingContext2D) {
         this.position = {x, y};
@@ -20,10 +20,6 @@ export class Figure {
                 }
             })
         })
-    }
-
-    getRandomPiece() {
-        return PIECES[Math.floor(Math.random() * PIECES.length)];
     }
 
     checkCollision() {
@@ -62,8 +58,12 @@ export class Figure {
         if (this.checkCollision()) this.shape = previousShape
     }
 
-    reset() {
+    private reset() {
         this.position = {x: 6, y: 0}
         this.shape = this.getRandomPiece()
+    }
+
+    private getRandomPiece() {
+        return PIECES[Math.floor(Math.random() * PIECES.length)];
     }
 }

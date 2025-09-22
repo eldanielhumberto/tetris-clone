@@ -2,16 +2,20 @@ import {BLOCK_SIZE, BOARD_HEIGHT, BOARD_WIDTH} from "./constants.ts";
 import {Figure} from "./Figure.ts";
 import {Board} from "./Board.ts";
 
-// Canvas config
+// Config
 const canvas = document.getElementById("canvas") as HTMLCanvasElement
 const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
+
+const $playButton = document.getElementById("play-button") as HTMLButtonElement
+const $scoreText = document.getElementById("score") as HTMLParagraphElement
+const $menu = document.getElementById("menu") as HTMLDivElement
 
 canvas.width = BLOCK_SIZE * BOARD_WIDTH
 canvas.height = BLOCK_SIZE * BOARD_HEIGHT
 ctx.scale(BLOCK_SIZE, BLOCK_SIZE)
 
 // Init objects
-const board = new Board(ctx);
+const board = new Board(ctx, $scoreText);
 const figure = new Figure({x: 6, y: 0}, ctx);
 
 // Controls
@@ -73,4 +77,8 @@ function update(time = 0) {
     window.requestAnimationFrame(update)
 }
 
-update()
+$playButton.addEventListener("click", () => {
+    $menu.className = "hidden"
+    update();
+})
+

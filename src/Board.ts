@@ -1,10 +1,13 @@
 import {BOARD, BOARD_WIDTH} from "./constants.ts";
 
 export class Board {
-    ctx: CanvasRenderingContext2D
+    private ctx: CanvasRenderingContext2D
+    private $scoreText: HTMLParagraphElement
+    private score = 0
 
-    constructor(ctx: CanvasRenderingContext2D) {
+    constructor(ctx: CanvasRenderingContext2D, $scoreText: HTMLParagraphElement) {
         this.ctx = ctx;
+        this.$scoreText = $scoreText;
     }
 
     draw() {
@@ -30,6 +33,13 @@ export class Board {
 
             const newRow = Array(BOARD_WIDTH).fill(0)
             BOARD.unshift(newRow)
+
+            this.setScore(this.score + 1)
         })
+    }
+
+    private setScore(score: number) {
+        this.score = score
+        this.$scoreText.textContent = "Score: " + score
     }
 }
